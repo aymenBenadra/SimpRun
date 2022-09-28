@@ -1,0 +1,69 @@
+@startuml
+
+abstract class User {
+  # id : String
+  # name : String
+  # username : String
+  # email : String
+  .. encrypted ..
+  # password : String
+}
+
+class Admin {
+  - void addApprenant()
+  - void addFormateur()
+  - void removeApprenant()
+  - void removeFormateur()
+  - void addPromo()
+  - void removePromo()
+}
+
+class Formateur {
+  - void addApprenantToPromo()
+  - void addBrief()
+  - void removeApprenantFromPromo()
+  - void archiveBrief()
+}
+
+class Apprenant {
+  - void submitDelivrable()
+}
+
+class Promo {
+  - id : String
+  - name : String
+  - year : int
+}
+
+class Brief {
+  - id : String
+  - name : String
+  - description : String
+  - deadline : Date
+  - status : Status
+}
+
+enum Status {
+  Active
+  Archived
+}
+
+class Delivrable {
+  - id : String
+  - link : String
+  - createdAt : Date
+}
+
+User ^-- Admin
+User ^-- Formateur
+User ^-- Apprenant
+
+Formateur "1" -- "1" Promo : has <
+Formateur "1" -- "1,*" Apprenant : has >
+Apprenant "1,*" -- "1" Promo : has <
+Promo "1" -- "0,*" Brief : has >
+Apprenant "0,*" -- "0,*" Brief : Completes >
+(Apprenant, Brief) .. Delivrable
+Brief -[hidden]right- Status
+
+@enduml

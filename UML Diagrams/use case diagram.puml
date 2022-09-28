@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+
+actor Admin
+actor Formateur
+actor Apprenant
+rectangle SimpRun {
+    usecase "Manage Formateurs" as UC1
+    usecase "Manage Apprenants" as UC2
+    usecase "Create Promos" as UC3
+    usecase "Manage Promos" as UC4
+    usecase "Manage Briefs" as UC5
+    usecase "Archive Brief" as UC6
+    usecase "Submit Delivrables" as UC7
+}
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Formateur --> UC4
+Formateur --> UC5
+Formateur --> UC6
+Apprenant --> UC7
+@enduml
