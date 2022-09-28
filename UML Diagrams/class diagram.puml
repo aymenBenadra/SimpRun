@@ -62,6 +62,7 @@ Formateur "1" -- "1" Promo : has <
 Formateur "1" -- "1,*" Apprenant : has >
 Apprenant "1,*" -- "1" Promo : has <
 Promo "1" -- "0,*" Brief : has >
+Formateur "1" -[norank]- "0,*" Brief : Creates >
 Apprenant "0,*" -- "0,*" Brief : Completes >
 (Apprenant, Brief) .. Delivrable
 Brief -[hidden]right- Status
