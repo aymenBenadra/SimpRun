@@ -2,11 +2,11 @@ import java.util.UUID;
 
 public abstract class User implements IObjectable {
     private final static int passwordEncryptionMagicNumber = 5;
-    protected String id;
-    protected String name;
-    protected String password;
-    protected String email;
-    protected String username;
+    protected final String id;
+    protected final String name;
+    protected final String password;
+    protected final String email;
+    protected final String username;
 
     public User(String name, String password, String email, String username) {
         this.id = UUID.randomUUID().toString();
@@ -50,16 +50,5 @@ public abstract class User implements IObjectable {
 
     public String getUsername() {
         return username;
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getName() + " {" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }
