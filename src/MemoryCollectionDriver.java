@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class MemoryCollectionDriver<T extends Objectable> implements IDriver<T> {
+public class MemoryCollectionDriver<T extends IObjectable> implements IDriver<T> {
     private final ArrayList<T> entities;
 
     public MemoryCollectionDriver() {

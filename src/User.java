@@ -1,6 +1,6 @@
 import java.util.UUID;
 
-public abstract class User implements Objectable {
+public abstract class User implements IObjectable {
     private final static int passwordEncryptionMagicNumber = 5;
     protected String id;
     protected String name;
