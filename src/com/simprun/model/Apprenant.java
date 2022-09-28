@@ -1,3 +1,5 @@
+package com.simprun.model;
+
 public class Apprenant extends User{
     private Formateur formateur;
     private Promo promo;
@@ -24,7 +26,7 @@ public class Apprenant extends User{
 
     @Override
     public String toString() {
-        return "Apprenant {" +
+        return "com.simprun.model.Apprenant {" +
                 "name='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", username='" + getUsername() + '\'' +

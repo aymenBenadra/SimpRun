@@ -1,3 +1,5 @@
+package com.simprun.model;
+
 import java.util.UUID;
 
 public abstract class User implements IObjectable {

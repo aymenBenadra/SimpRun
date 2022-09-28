@@ -1,3 +1,6 @@
+package com.simprun.dao;
+
+import com.simprun.model.IObjectable;
 import java.util.ArrayList;
 
 public class MemoryCollectionDriver<T extends IObjectable> implements IDriver<T> {

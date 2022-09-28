@@ -1,3 +1,5 @@
+package com.simprun.model;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -45,7 +47,7 @@ public class Brief implements IObjectable {
 
     @Override
     public String toString() {
-        return "Brief {" +
+        return "com.simprun.model.Brief {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

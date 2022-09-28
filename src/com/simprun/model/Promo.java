@@ -1,3 +1,5 @@
+package com.simprun.model;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -44,7 +46,7 @@ public class Promo implements IObjectable {
 
     @Override
     public String toString() {
-        return "Promo {" +
+        return "com.simprun.model.Promo {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", year='" + year + '\'' +

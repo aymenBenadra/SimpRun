@@ -1,3 +1,5 @@
+package com.simprun.model;
+
 import java.util.ArrayList;
 
 public class Formateur extends User {
@@ -26,7 +28,7 @@ public class Formateur extends User {
 
     @Override
     public String toString() {
-        return "Formateur {" +
+        return "com.simprun.model.Formateur {" +
                 "name='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", username='" + getUsername() + '\'' +
