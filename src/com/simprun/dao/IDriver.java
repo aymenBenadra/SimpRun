@@ -3,10 +3,10 @@ package com.simprun.dao;
 import java.util.ArrayList;
 
 public interface IDriver<T> {
-    void add(T o);
+    void add(T e);
     void delete(String id);
-    Object get(String id);
+    T get(String id);
     ArrayList<T> getAll();
-    void update(String id, T o);
+    void update(String id, T e);
     int getCount();
 }

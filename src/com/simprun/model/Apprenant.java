@@ -26,7 +26,7 @@ public class Apprenant extends User{
 
     @Override
     public String toString() {
-        return "com.simprun.model.Apprenant {" +
+        return "Apprenant {" +
                 "name='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", username='" + getUsername() + '\'' +

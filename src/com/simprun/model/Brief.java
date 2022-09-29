@@ -1,5 +1,7 @@
 package com.simprun.model;
 
+import com.simprun.dao.MemoryCollectionDriver;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,8 +13,10 @@ public class Brief implements IObjectable {
     private final Date deadline;
     private final BriefStatus status;
     private final Promo promo;
+    private final MemoryCollectionDriver<Delivrable> delivrables;
 
-    public Brief(String name, String description, Promo promo, Date deadline, BriefStatus status) {
+    public Brief(String name, String description, Promo promo, Date deadline, BriefStatus status, MemoryCollectionDriver<Delivrable> delivrables) {
+        this.delivrables = delivrables;
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
@@ -45,9 +49,13 @@ public class Brief implements IObjectable {
         return promo;
     }
 
+    public MemoryCollectionDriver<Delivrable> getDelivrables() {
+        return delivrables;
+    }
+
     @Override
     public String toString() {
-        return "com.simprun.model.Brief {" +
+        return "Brief {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

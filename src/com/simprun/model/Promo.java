@@ -1,17 +1,18 @@
 package com.simprun.model;
 
-import java.util.ArrayList;
+import com.simprun.dao.MemoryCollectionDriver;
+
 import java.util.UUID;
 
 public class Promo implements IObjectable {
     private final String id;
     private final String name;
     private final int year;
-    private final ArrayList<Apprenant> apprenants;
-    private final ArrayList<Brief> briefs;
+    private final MemoryCollectionDriver<Apprenant> apprenants;
+    private final MemoryCollectionDriver<Brief> briefs;
     private final Formateur formateur;
 
-    public Promo(String name, int year, ArrayList<Apprenant> apprenants, ArrayList<Brief> briefs, Formateur formateur) {
+    public Promo(String name, int year, MemoryCollectionDriver<Apprenant> apprenants, MemoryCollectionDriver<Brief> briefs, Formateur formateur) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.year = year;
@@ -32,11 +33,11 @@ public class Promo implements IObjectable {
         return year;
     }
 
-    public ArrayList<Apprenant> getApprenants() {
+    public MemoryCollectionDriver<Apprenant> getApprenants() {
         return apprenants;
     }
 
-    public ArrayList<Brief> getBriefs() {
+    public MemoryCollectionDriver<Brief> getBriefs() {
         return briefs;
     }
 
@@ -46,7 +47,7 @@ public class Promo implements IObjectable {
 
     @Override
     public String toString() {
-        return "com.simprun.model.Promo {" +
+        return "Promo {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", year='" + year + '\'' +

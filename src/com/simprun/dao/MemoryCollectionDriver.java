@@ -1,6 +1,9 @@
 package com.simprun.dao;
 
 import com.simprun.model.IObjectable;
+import com.simprun.model.Promo;
+import com.simprun.model.User;
+
 import java.util.ArrayList;
 
 public class MemoryCollectionDriver<T extends IObjectable> implements IDriver<T> {
@@ -29,6 +32,17 @@ public class MemoryCollectionDriver<T extends IObjectable> implements IDriver<T>
         return null;
     }
 
+    public T getByUsername(String username) {
+        for (T e : entities) {
+            if (e instanceof User) {
+                if (((User) e).getUsername().equals(username)) {
+                    return e;
+                }
+            }
+        }
+        return null;
+    }
+
     public ArrayList<T> getAll() {
         return entities;
     }
@@ -43,5 +57,16 @@ public class MemoryCollectionDriver<T extends IObjectable> implements IDriver<T>
 
     public int getCount() {
         return entities.size();
+    }
+
+    public T getByName(String name) {
+        for (T e : entities) {
+            if(e instanceof Promo) {
+                if (((Promo) e).getName().equals(name)) {
+                    return e;
+                }
+            }
+        }
+        return null;
     }
 }

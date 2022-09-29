@@ -1,13 +1,14 @@
 package com.simprun.model;
 
-import java.util.ArrayList;
+import com.simprun.dao.MemoryCollectionDriver;
 
 public class Formateur extends User {
     private final Promo promo;
-    private final ArrayList<Apprenant> apprenants;
-    private final ArrayList<Brief> briefs;
+    private final MemoryCollectionDriver<Apprenant> apprenants;
+    private final MemoryCollectionDriver<Brief> briefs;
 
-    public Formateur(String name, String password, String email, String username, Promo promo, ArrayList<Apprenant> apprenants, ArrayList<Brief> briefs) {
+    public Formateur(String name, String password, String email, String username,
+                     Promo promo, MemoryCollectionDriver<Apprenant> apprenants, MemoryCollectionDriver<Brief> briefs) {
         super(name, password, email, username);
         this.promo = promo;
         this.apprenants = apprenants;
@@ -18,17 +19,17 @@ public class Formateur extends User {
         return promo;
     }
 
-    public ArrayList<Apprenant> getApprenants() {
+    public MemoryCollectionDriver<Apprenant> getApprenants() {
         return apprenants;
     }
 
-    public ArrayList<Brief> getBriefs() {
+    public MemoryCollectionDriver<Brief> getBriefs() {
         return briefs;
     }
 
     @Override
     public String toString() {
-        return "com.simprun.model.Formateur {" +
+        return "Formateur {" +
                 "name='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", username='" + getUsername() + '\'' +

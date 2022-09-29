@@ -7,7 +7,7 @@ public class Admin extends User{
 
     @Override
     public String toString() {
-        return "com.simprun.model.Admin {" +
+        return "Admin {" +
                 "name='" + getName() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", username='" + getUsername() + '\'' +
