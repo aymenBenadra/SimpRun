@@ -5,9 +5,9 @@ actor Admin
 actor Formateur
 actor Apprenant
 rectangle SimpRun {
-    usecase "Manage Formateurs" as UC1
-    usecase "Manage Apprenants" as UC2
-    usecase "Create Promos" as UC3
+    usecase "Add / Remove Formateurs" as UC1
+    usecase "Add / Remove Apprenants" as UC2
+    usecase "Add / Remove Promos" as UC3
     usecase "Manage Promos" as UC4
     usecase "Manage Briefs" as UC5
     usecase "Archive Brief" as UC6
