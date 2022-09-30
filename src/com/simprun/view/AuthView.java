@@ -21,9 +21,4 @@ public class AuthView {
             terminalUI.println("Login failed");
         }
     }
-
-    public void logout() {
-        authController.logout();
-        terminalUI.println("Logout successful");
-    }
 }
