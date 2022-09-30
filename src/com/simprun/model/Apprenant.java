@@ -4,8 +4,8 @@ public class Apprenant extends User{
     private Formateur formateur;
     private Promo promo;
 
-    public Apprenant(String name, String password, String email, String username) {
-        super(name, password, email, username);
+    public Apprenant(String name, String username, String email, String password) {
+        super(name, username, email, password);
     }
 
     public void setFormateur(Formateur formateur) {

@@ -10,7 +10,7 @@ public abstract class User implements IObjectable {
     protected final String email;
     protected final String username;
 
-    public User(String name, String password, String email, String username) {
+    public User(String name, String username, String email, String password) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.password = encryptPassword(password);
