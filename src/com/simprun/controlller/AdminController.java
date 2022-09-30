@@ -2,9 +2,9 @@ package com.simprun.controlller;
 
 import com.simprun.dao.MemoryCollectionDriver;
 import com.simprun.model.Apprenant;
-import com.simprun.model.Brief;
 import com.simprun.model.Formateur;
 import com.simprun.model.Promo;
+import com.simprun.model.User;
 
 public class AdminController {
 
@@ -18,7 +18,7 @@ public class AdminController {
         this.formateurs = formateurs;
     }
 
-    public boolean addApprenant(String name, String password, String email, String username) {
+    public boolean addApprenant(String name, String username, String email, String password) {
         if (apprenants.getByUsername(username) == null) {
             apprenants.add(new Apprenant(name, password, email, username));
             return true;
@@ -26,18 +26,18 @@ public class AdminController {
         return false;
     }
 
-    public boolean addFormateur(String name, String password, String email, String username,
-                                Promo promo, MemoryCollectionDriver<Apprenant> apprenants, MemoryCollectionDriver<Brief> briefs) {
+    public boolean addFormateur(String name, String password, String email, String username) {
         if (formateurs.getByUsername(username) == null) {
-            formateurs.add(new Formateur(name, password, email, username, promo, apprenants, briefs));
+            formateurs.add(new Formateur(name, password, email, username));
             return true;
         }
         return false;
     }
 
-    public boolean addPromo(String name, int year, MemoryCollectionDriver<Apprenant> apprenants,
-                            MemoryCollectionDriver<Brief> briefs, Formateur formateur) {
-        promos.add(new Promo(name, year, apprenants, briefs, formateur));
+    public boolean addPromo(String name, int year, Formateur formateur) {
+        Promo promo = new Promo(name, year, formateur);
+        promos.add(promo);
+        formateur.setPromo(promo);
         return true;
     }
 
@@ -63,5 +63,29 @@ public class AdminController {
             promos.delete(promo.getId());
         }
         return true;
+    }
+
+    public String[] getApprenants() {
+        return apprenants.getAll().stream().map(User::getUsername).toArray(String[]::new);
+    }
+
+    public Formateur getApprenant(String username) {
+        return formateurs.getAll().stream().filter(formateur -> formateur.getUsername().equals(username)).findFirst().orElse(null);
+    }
+
+    public String[] getFormateurs() {
+        return formateurs.getAll().stream().map(User::getUsername).toArray(String[]::new);
+    }
+
+    public Formateur getFormateur(String username) {
+        return formateurs.getAll().stream().filter(formateur -> formateur.getUsername().equals(username)).findFirst().orElse(null);
+    }
+
+    public String[] getPromos() {
+        return promos.getAll().stream().map(Promo::getName).toArray(String[]::new);
+    }
+
+    public Promo getPromo(String name) {
+        return promos.getAll().stream().filter(promo -> promo.getName().equals(name)).findFirst().orElse(null);
     }
 }
