@@ -9,15 +9,15 @@ public class Brief implements IObjectable {
     private final String name;
     private final String description;
     private final Date deadline;
-    private final BriefStatus status;
+    private BriefStatus status;
     private final Promo promo;
 
-    public Brief(String name, String description, Promo promo, Date deadline, BriefStatus status) {
+    public Brief(String name, String description, Promo promo, Date deadline) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.deadline = deadline;
-        this.status = status;
+        this.status = BriefStatus.Active;
         this.promo = promo;
     }
 
@@ -39,6 +39,10 @@ public class Brief implements IObjectable {
 
     public BriefStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(BriefStatus status) {
+        this.status = status;
     }
 
     public Promo getPromo() {
