@@ -1,20 +1,19 @@
 package com.simprun.controlller;
 
-import com.simprun.dao.MemoryCollectionDriver;
-import com.simprun.model.Apprenant;
-import com.simprun.model.Brief;
-import com.simprun.model.BriefStatus;
-import com.simprun.model.Promo;
+import com.simprun.dao.IDriver;
+import com.simprun.model.*;
 
 import java.sql.Date;
 
 public class FormateurController {
-    private final MemoryCollectionDriver<Apprenant> apprenants;
-    private final MemoryCollectionDriver<Brief> briefs;
+    private final IDriver<Apprenant> apprenants;
+    private final IDriver<Brief> briefs;
+    private final IDriver<Deliverable> deliverables;
 
-    public FormateurController(MemoryCollectionDriver<Apprenant> apprenants, MemoryCollectionDriver<Brief> briefs) {
+    public FormateurController(IDriver<Apprenant> apprenants, IDriver<Brief> briefs, IDriver<Deliverable> deliverables) {
         this.apprenants = apprenants;
         this.briefs = briefs;
+        this.deliverables = deliverables;
     }
 
     public boolean addApprenantToPromo(String username, Promo promo) {
@@ -60,6 +59,21 @@ public class FormateurController {
         return briefs.getAll().stream()
                 .map(Brief::getName)
                 .toArray(String[]::new);
+    }
+
+    public Brief getBrief(String name) {
+        return briefs.getByName(name);
+    }
+
+    public String[] getDeliverables(String briefName) {
+        Brief brief = briefs.getByName(briefName);
+        if (brief != null) {
+            return deliverables.getAll().stream()
+                    .filter(deliverable -> deliverable.getBrief() == brief)
+                    .map(deliverable -> deliverable.getApprenant().getUsername() + " - " + deliverable.getLink() + " : " + deliverable.getCreatedAt().toString())
+                    .toArray(String[]::new);
+        }
+        return null;
     }
 
     public boolean addBrief(String name, String description, Promo promo, String deadline) {

@@ -15,7 +15,7 @@ public class AdminView {
     }
 
     public void dashboard() {
-        terminalUI.println("Admin Dashboard: " + authController.getCurrentUser().getName());
+        terminalUI.println("Admin Dashboard: " + authController.getCurrentUser().toString());
         int choice = terminalUI.displayMenu(new String[]{
                 "Manage Apprenants", "Manage Formateurs", "Manage Promos", "Logout"
         });
@@ -65,9 +65,9 @@ public class AdminView {
 
     private void removeApprenant() {
         terminalUI.println("Remove Apprenant");
-        terminalUI.displayList(adminController.getApprenants());
-        String username = terminalUI.prompt("Apprenant username: ");
-        if (adminController.removeApprenant(username)) {
+        String[] apprenants = adminController.getApprenants();
+        int choice = terminalUI.displayMenu(apprenants);
+        if (apprenants.length > 0 && adminController.removeApprenant(apprenants[choice - 1])) {
             terminalUI.println("Apprenant removed successfully");
         } else {
             terminalUI.println("Failed to remove apprenant");
@@ -112,9 +112,9 @@ public class AdminView {
 
     private void removeFormateur() {
         terminalUI.println("Remove Formateur");
-        terminalUI.displayList(adminController.getFormateurs());
-        String username = terminalUI.prompt("Formateur username: ");
-        if (adminController.removeFormateur(username)) {
+        String[] formateurs = adminController.getFormateurs();
+        int choice = terminalUI.displayMenu(formateurs);
+        if (formateurs.length > 0 && adminController.removeFormateur(formateurs[choice - 1])) {
             terminalUI.println("Formateur removed successfully");
         } else {
             terminalUI.println("Failed to remove formateur");
@@ -147,9 +147,9 @@ public class AdminView {
         terminalUI.println("Add Promo");
         String name = terminalUI.prompt("Name: ");
         int year = terminalUI.promptInt("Year: ", 2000, 2099);
-        terminalUI.println("Formateurs:");
-        terminalUI.displayList(adminController.getFormateurs());
-        if (adminController.addPromo(name, year, adminController.getFormateur(terminalUI.prompt("Formateur username: ")))) {
+        String[] formateurs = adminController.getFormateurs();
+        int choice = terminalUI.displayMenu(formateurs);
+        if (formateurs.length > 0 && adminController.addPromo(name, year, formateurs[choice - 1])) {
             terminalUI.println("Promo added successfully");
         } else {
             terminalUI.println("Failed to add promo");
@@ -159,8 +159,9 @@ public class AdminView {
 
     private void removePromo() {
         terminalUI.println("Remove Promo");
-        String name = terminalUI.prompt("Name: ");
-        if (adminController.removePromo(name)) {
+        String[] promos = adminController.getPromos();
+        int choice = terminalUI.displayMenu(promos);
+        if (promos.length > 0 && adminController.removePromo(promos[choice - 1])) {
             terminalUI.println("Promo removed successfully");
         } else {
             terminalUI.println("Failed to remove promo");

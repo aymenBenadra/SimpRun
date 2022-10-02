@@ -19,7 +19,7 @@ public class FormateurView {
     }
 
     public void dashboard() {
-        terminalUI.println("Formateur Dashboard: " + authController.getCurrentUser().getName());
+        terminalUI.println("Formateur Dashboard: " + authController.getCurrentUser().toString());
         int choice = terminalUI.displayMenu(new String[]{
                 "Manage Promo", "Manage Briefs", "Logout"
         });
@@ -54,9 +54,9 @@ public class FormateurView {
 
     private void addApprenant() {
         terminalUI.println("Add Apprenant to Promo");
-        terminalUI.displayList(formateurController.getApprenants());
-        String username = terminalUI.prompt("Username: ");
-        if (formateurController.addApprenantToPromo(username, formateur.getPromo())) {
+        String[] apprenants = formateurController.getApprenants();
+        int choice = terminalUI.displayMenu(apprenants);
+        if (formateurController.addApprenantToPromo(apprenants[choice - 1], formateur.getPromo())) {
             terminalUI.println("Apprenant added successfully");
         } else {
             terminalUI.println("Apprenant not added");
@@ -66,9 +66,9 @@ public class FormateurView {
 
     private void removeApprenant() {
         terminalUI.println("Remove Apprenant from Promo");
-        terminalUI.displayList(formateurController.getApprenants(formateur.getPromo()));
-        String username = terminalUI.prompt("Username: ");
-        if (formateurController.removeApprenantFromPromo(username)) {
+        String[] apprenants = formateurController.getApprenants(formateur.getPromo());
+        int choice = terminalUI.displayMenu(apprenants);
+        if (formateurController.removeApprenantFromPromo(apprenants[choice - 1])) {
             terminalUI.println("Apprenant removed successfully");
         } else {
             terminalUI.println("Apprenant not removed");
@@ -79,14 +79,15 @@ public class FormateurView {
     private void manageBriefs() {
         terminalUI.println("Manage Briefs");
         int choice = terminalUI.displayMenu(new String[]{
-                "List briefs", "Add brief", "Remove brief", "Archive brief", "Back"
+                "List briefs", "Add brief", "Show brief details", "Remove brief", "Archive brief", "Back"
         });
         switch (choice) {
             case 1 -> listBriefs();
             case 2 -> addBrief();
-            case 3 -> removeBrief();
-            case 4 -> archiveBrief();
-            case 5 -> dashboard();
+            case 3 -> showBriefDetails();
+            case 4 -> removeBrief();
+            case 5 -> archiveBrief();
+            case 6 -> dashboard();
             default -> terminalUI.println("Invalid choice");
         }
     }
@@ -139,11 +140,21 @@ public class FormateurView {
         manageBriefs();
     }
 
+    private void showBriefDetails() {
+        terminalUI.println("Show Brief Details");
+        String[] briefs = formateurController.getBriefs();
+        int choice = terminalUI.displayMenu(briefs);
+        terminalUI.println(formateurController.getBrief(briefs[choice - 1]).toString());
+        terminalUI.println("Deliverables for this brief:");
+        terminalUI.displayList(formateurController.getDeliverables(briefs[choice - 1]));
+        manageBriefs();
+    }
+
     private void removeBrief() {
         terminalUI.println("Remove Brief");
-        terminalUI.displayList(formateurController.getBriefs());
-        String name = terminalUI.prompt("Name: ");
-        if (formateurController.removeBrief(name)) {
+        String[] briefs = formateurController.getBriefs();
+        int choice = terminalUI.displayMenu(briefs);
+        if (formateurController.removeBrief(briefs[choice - 1])) {
             terminalUI.println("Brief removed successfully");
         } else {
             terminalUI.println("Brief not removed");
@@ -153,9 +164,9 @@ public class FormateurView {
 
     private void archiveBrief() {
         terminalUI.println("Archive Brief");
-        terminalUI.displayList(formateurController.getBriefs());
-        String name = terminalUI.prompt("Name: ");
-        if (formateurController.archiveBrief(name)) {
+        String[] briefs = formateurController.getBriefs();
+        int choice = terminalUI.displayMenu(briefs);
+        if (formateurController.archiveBrief(briefs[choice - 1])) {
             terminalUI.println("Brief archived successfully");
         } else {
             terminalUI.println("Brief not archived");
