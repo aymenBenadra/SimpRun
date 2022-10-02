@@ -1,23 +1,31 @@
 package com.simprun.controlller;
 
-import com.simprun.dao.MemoryCollectionDriver;
+import com.simprun.dao.IDriver;
+import com.simprun.model.Apprenant;
+import com.simprun.model.Admin;
+import com.simprun.model.Formateur;
 import com.simprun.model.User;
 
 public class AuthController {
 
-    private final MemoryCollectionDriver<User> users;
+    private final IDriver<Apprenant> apprenants;
+    private final IDriver<Formateur> formateurs;
+    private final IDriver<Admin> admins;
     private User currentUser = null;
 
-    public AuthController(MemoryCollectionDriver<User> users) {
-        this.users = users;
+    public AuthController(IDriver<Admin> admins, IDriver<Formateur> formateurs, IDriver<Apprenant> apprenants) {
+        this.admins = admins;
+        this.formateurs = formateurs;
+        this.apprenants = apprenants;
     }
 
     public boolean login(String username, String password) {
-        for (User user : users.getAll()) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                currentUser = user;
-                return true;
-            }
+        User user = apprenants.getByUsername(username);
+        user = user == null ? formateurs.getByUsername(username) : user;
+        user = user == null ? admins.getByUsername(username) : user;
+        if (user != null && user.getPassword().equals(password)) {
+            currentUser = user;
+            return true;
         }
         return false;
     }
