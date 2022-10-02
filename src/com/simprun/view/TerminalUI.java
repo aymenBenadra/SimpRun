@@ -3,11 +3,10 @@ package com.simprun.view;
 import java.util.Scanner;
 
 public class TerminalUI {
-
     private final Scanner scanner;
 
-    public TerminalUI(Scanner scanner) {
-        this.scanner = scanner;
+    public TerminalUI() {
+        this.scanner = new Scanner(System.in);
     }
 
     public void print(String message) {
@@ -38,15 +37,13 @@ public class TerminalUI {
         int value;
         print(message);
         do {
-            value = scanner.nextInt();
+            value = scanner.hasNextInt() ? scanner.nextInt() : -1;
+            // consume the newline character
+            scanner.nextLine();
             if (value < min || value > max) {
                 System.out.println("Invalid value, please enter a value between " + min + " and " + max);
             }
         } while (value < min || value > max);
         return value;
-    }
-
-    public void close() {
-        scanner.close();
     }
 }
