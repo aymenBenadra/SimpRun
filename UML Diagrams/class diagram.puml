@@ -59,7 +59,6 @@ User ^-- Formateur
 User ^-- Apprenant
 
 Formateur "1" -- "1" Promo : has <
-Formateur "1" -- "1,*" Apprenant : has >
 Apprenant "1,*" -- "1" Promo : has <
 Promo "1" -- "0,*" Brief : has >
 Formateur "1" -[norank]- "0,*" Brief : Creates >

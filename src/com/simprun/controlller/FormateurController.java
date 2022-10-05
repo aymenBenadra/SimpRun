@@ -21,7 +21,6 @@ public class FormateurController {
         Apprenant apprenant = apprenants.getByUsername(username);
         if (apprenant != null && promo != null) {
             apprenant.setPromo(promo);
-            apprenant.setFormateur(promo.getFormateur());
             return true;
         }
         return false;
@@ -31,7 +30,6 @@ public class FormateurController {
         Apprenant apprenant = apprenants.getByUsername(username);
         if (apprenant != null) {
             apprenant.setPromo(null);
-            apprenant.setFormateur(null);
             return true;
         }
         return false;
