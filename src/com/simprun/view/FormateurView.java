@@ -2,6 +2,7 @@ package com.simprun.view;
 
 import com.simprun.controlller.AuthController;
 import com.simprun.controlller.FormateurController;
+import com.simprun.model.Brief;
 import com.simprun.model.BriefStatus;
 import com.simprun.model.Formateur;
 
@@ -132,8 +133,18 @@ public class FormateurView {
         String title = terminalUI.prompt("Title: ");
         String description = terminalUI.prompt("Description: ");
         String deadline = terminalUI.prompt("Deadline (YYYY-MM-DD): ");
-        if (formateurController.addBrief(title, description, formateur.getPromo(), deadline)) {
+        Brief brief = formateurController.addBrief(title, description, formateur.getPromo(), deadline);
+        if (brief != null) {
             terminalUI.println("Brief added successfully");
+            terminalUI.println("Do you want to broadcast it to all students in Promo?");
+            int choice = terminalUI.displayMenu(new String[]{"Yes", "No"});
+            if (choice == 1) {
+                if (formateurController.broadcastBrief(brief)) {
+                    terminalUI.println("Brief broadcasted successfully");
+                } else {
+                    terminalUI.println("Brief not broadcasted");
+                }
+            }
         } else {
             terminalUI.println("Brief not added");
         }

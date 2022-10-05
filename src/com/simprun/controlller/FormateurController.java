@@ -2,6 +2,7 @@ package com.simprun.controlller;
 
 import com.simprun.dao.IDriver;
 import com.simprun.model.*;
+import com.simprun.service.EmailService;
 
 import java.sql.Date;
 
@@ -76,12 +77,27 @@ public class FormateurController {
         return null;
     }
 
-    public boolean addBrief(String name, String description, Promo promo, String deadline) {
+    public Brief addBrief(String name, String description, Promo promo, String deadline) {
         if (promo != null) {
-            briefs.add(new Brief(name, description, promo, Date.valueOf(deadline)));
-            return true;
+            Brief brief = new Brief(name, description, promo, Date.valueOf(deadline));
+            briefs.add(brief);
+            return brief;
         }
-        return false;
+        return null;
+    }
+
+    public boolean broadcastBrief(Brief brief) {
+        String mailBody = "New brief is added by your formateur " + brief.getPromo().getFormateur().getUsername()
+                + "\nBrief name: " + brief.getName()
+                + "\nBrief Description: " + brief.getDescription()
+                + "\nBrief Deadline: " + brief.getDeadline();
+
+        for (String apprenant : getApprenants(brief.getPromo())) {
+            if (!EmailService.sendEmail(apprenants.getByUsername(apprenant).getEmail(), "New Brief added to your promo", mailBody)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean removeBrief(String name) {
