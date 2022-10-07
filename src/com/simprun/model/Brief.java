@@ -1,5 +1,9 @@
 package com.simprun.model;
 
+import com.simprun.visitor.IDeserializeVisitor;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -75,5 +79,24 @@ public class Brief implements IObjectable, ISerializable, IDeserializable {
                 ", deadline='" + deadline.toString() + '\'' +
                 ", status='" + status + '\'' +
                 '}';
+    }
+
+    @Override
+    public String serializeFields() {
+        return "name,description,promoID,deadline,status";
+    }
+
+    @Override
+    public String serializeValues() {
+        return "'" + name + "','" + description + "','" + promo.getId() + "','" + deadline.toString() + "','" + status + "'";
+    }
+
+    @Override
+    public void accept(IDeserializeVisitor visitor, ResultSet resultSet) {
+        try {
+            visitor.visit(this, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

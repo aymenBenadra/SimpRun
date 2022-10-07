@@ -1,14 +1,20 @@
 package com.simprun.model;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.util.UUID;
 
 public abstract class User implements IObjectable, ISerializable, IDeserializable {
-    private final static int passwordEncryptionMagicNumber = 5;
+    private static final Dotenv dotenv;
     protected String id;
     protected String name;
     protected String password;
     protected String email;
     protected String username;
+
+    static {
+        dotenv = Dotenv.load();
+    }
 
     public User(String name, String username, String email, String password) {
         this.id = UUID.randomUUID().toString();
@@ -21,7 +27,7 @@ public abstract class User implements IObjectable, ISerializable, IDeserializabl
     private String encryptPassword(String password) {
         StringBuilder encryptedPassword = new StringBuilder();
         for (int i = 0; i < password.length(); i++) {
-            encryptedPassword.append((char) (password.charAt(i) + passwordEncryptionMagicNumber));
+            encryptedPassword.append((char) (password.charAt(i) + Integer.parseInt(dotenv.get("PASSWORD_ENCRYPTION_MAGIC_NUMBER"))));
         }
         return encryptedPassword.toString();
     }
@@ -66,5 +72,21 @@ public abstract class User implements IObjectable, ISerializable, IDeserializabl
 
     public String getUsername() {
         return username;
+    }
+
+    private String decryptPassword(String password) {
+        StringBuilder decryptedPassword = new StringBuilder();
+        for (int i = 0; i < password.length(); i++) {
+            decryptedPassword.append((char) (password.charAt(i) - Integer.parseInt(dotenv.get("PASSWORD_ENCRYPTION_MAGIC_NUMBER"))));
+        }
+        return decryptedPassword.toString();
+    }
+
+    public String serializeFields() {
+        return "id,name,username,email,password";
+    }
+
+    public String serializeValues() {
+        return String.format("'%s','%s','%s','%s','%s'", this.id, this.name, this.username, this.email, this.password);
     }
 }

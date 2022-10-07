@@ -1,5 +1,9 @@
 package com.simprun.model;
 
+import com.simprun.visitor.IDeserializeVisitor;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -71,5 +75,24 @@ public class Deliverable implements IObjectable, ISerializable, IDeserializable 
                 ", brief=" + brief.getName() +
                 ", apprenant=" + apprenant.getName() +
                 '}';
+    }
+
+    @Override
+    public String serializeFields() {
+        return "id,link,createdAt,briefID,apprenantID";
+    }
+
+    @Override
+    public String serializeValues() {
+        return String.format("'%s','%s','%s','%s','%s'", id, link, createdAt.toString(), brief.getId(), apprenant.getId());
+    }
+
+    @Override
+    public void accept(IDeserializeVisitor visitor, ResultSet resultSet) {
+        try {
+            visitor.visit(this, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

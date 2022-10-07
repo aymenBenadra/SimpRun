@@ -1,5 +1,9 @@
 package com.simprun.model;
 
+import com.simprun.visitor.IDeserializeVisitor;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class Promo implements IObjectable, ISerializable, IDeserializable {
@@ -58,5 +62,24 @@ public class Promo implements IObjectable, ISerializable, IDeserializable {
                 ", year='" + year + '\'' +
                 ", formateur=" + formateur.getName() +
                 '}';
+    }
+
+    @Override
+    public String serializeFields() {
+        return "id, name, year, formateurID";
+    }
+
+    @Override
+    public String serializeValues() {
+        return String.format("'%s', '%s', %d, '%s'", id, name, year, formateur.getId());
+    }
+
+    @Override
+    public void accept(IDeserializeVisitor visitor, ResultSet resultSet) {
+        try {
+            visitor.visit(this, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
