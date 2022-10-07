@@ -45,8 +45,7 @@ public class AdminController {
     public boolean removeApprenant(String username) {
         Apprenant apprenant = apprenants.getByUsername(username);
         if (apprenant != null) {
-            apprenants.delete(apprenant.getId());
-            return true;
+            return apprenants.delete(apprenant);
         }
         return false;
     }
@@ -54,8 +53,7 @@ public class AdminController {
     public boolean removeFormateur(String username) {
         Formateur formateur = formateurs.getByUsername(username);
         if (formateur != null) {
-            formateurs.delete(formateur.getId());
-            return true;
+            return formateurs.delete(formateur);
         }
         return false;
     }
@@ -63,8 +61,7 @@ public class AdminController {
     public boolean removePromo(String name) {
         Promo promo = promos.getByName(name);
         if (promo != null) {
-            promos.delete(promo.getId());
-            return true;
+            return promos.delete(promo);
         }
         return false;
     }

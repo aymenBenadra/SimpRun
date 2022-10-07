@@ -93,7 +93,7 @@ public class FormateurController {
                 + "\nBrief Deadline: " + brief.getDeadline();
 
         for (String apprenant : getApprenants(brief.getPromo())) {
-            if (!EmailService.sendEmail(apprenants.getByUsername(apprenant).getEmail(), "New Brief added to your promo", mailBody)) {
+            if (!EmailService.getInstance().sendEmail(apprenants.getByUsername(apprenant).getEmail(), "New Brief added to your promo", mailBody)) {
                 return false;
             }
         }
@@ -103,8 +103,7 @@ public class FormateurController {
     public boolean removeBrief(String name) {
         Brief brief = briefs.getByName(name);
         if (brief != null) {
-            briefs.delete(brief.getId());
-            return true;
+            return briefs.delete(brief);
         }
         return false;
     }

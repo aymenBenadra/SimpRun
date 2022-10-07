@@ -3,12 +3,12 @@ package com.simprun.model;
 import java.util.Date;
 import java.util.UUID;
 
-public class Deliverable implements IObjectable {
-    private final String id;
-    private final String link;
-    private final Date createdAt;
-    private final Brief brief;
-    private final Apprenant apprenant;
+public class Deliverable implements IObjectable, ISerializable, IDeserializable {
+    private String id;
+    private String link;
+    private Date createdAt;
+    private Brief brief;
+    private Apprenant apprenant;
 
     public Deliverable(String link, Brief brief, Apprenant apprenant) {
         this.id = UUID.randomUUID().toString();
@@ -18,10 +18,7 @@ public class Deliverable implements IObjectable {
         this.apprenant = apprenant;
     }
 
-    public String getId() {
-        return id;
-    }
-
+    // Getters
     public String getLink() {
         return link;
     }
@@ -38,6 +35,33 @@ public class Deliverable implements IObjectable {
         return apprenant;
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    // Setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setBrief(Brief brief) {
+        this.brief = brief;
+    }
+
+    public void setApprenant(Apprenant apprenant) {
+        this.apprenant = apprenant;
+    }
+
+    // Helpers
     @Override
     public String toString() {
         return "Deliverable {" +

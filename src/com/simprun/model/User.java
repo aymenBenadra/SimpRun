@@ -2,13 +2,13 @@ package com.simprun.model;
 
 import java.util.UUID;
 
-public abstract class User implements IObjectable {
+public abstract class User implements IObjectable, ISerializable, IDeserializable {
     private final static int passwordEncryptionMagicNumber = 5;
-    protected final String id;
-    protected final String name;
-    protected final String password;
-    protected final String email;
-    protected final String username;
+    protected String id;
+    protected String name;
+    protected String password;
+    protected String email;
+    protected String username;
 
     public User(String name, String username, String email, String password) {
         this.id = UUID.randomUUID().toString();
@@ -26,14 +26,28 @@ public abstract class User implements IObjectable {
         return encryptedPassword.toString();
     }
 
-    private String decryptPassword(String password) {
-        StringBuilder decryptedPassword = new StringBuilder();
-        for (int i = 0; i < password.length(); i++) {
-            decryptedPassword.append((char) (password.charAt(i) - passwordEncryptionMagicNumber));
-        }
-        return decryptedPassword.toString();
+
+    public void setId(String id) {
+        this.id = id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
     public String getId() {
         return id;
     }

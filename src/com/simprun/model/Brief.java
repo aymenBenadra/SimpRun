@@ -3,14 +3,16 @@ package com.simprun.model;
 import java.util.Date;
 import java.util.UUID;
 
-public class Brief implements IObjectable {
+public class Brief implements IObjectable, ISerializable, IDeserializable {
 
-    private final String id;
-    private final String name;
-    private final String description;
-    private final Date deadline;
+    private String id;
+    private String name;
+    private String description;
+    private Date deadline;
     private BriefStatus status;
-    private final Promo promo;
+    private Promo promo;
+
+    public Brief() {}
 
     public Brief(String name, String description, Promo promo, Date deadline) {
         this.id = UUID.randomUUID().toString();
@@ -21,34 +23,48 @@ public class Brief implements IObjectable {
         this.promo = promo;
     }
 
+    // Getters
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public Date getDeadline() {
+        return deadline;
+    }
+    public BriefStatus getStatus() {
+        return status;
+    }
+    public Promo getPromo() {
+        return promo;
+    }
+    @Override
     public String getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Date getDeadline() {
-        return deadline;
-    }
-
-    public BriefStatus getStatus() {
-        return status;
-    }
-
+    // Setters
     public void setStatus(BriefStatus status) {
         this.status = status;
     }
-
-    public Promo getPromo() {
-        return promo;
+    public void setId(String id) {
+        this.id = id;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+    public void setPromo(Promo promo) {
+        this.promo = promo;
     }
 
+    // Helpers
     @Override
     public String toString() {
         return "Brief {" +
