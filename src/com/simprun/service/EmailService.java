@@ -4,31 +4,37 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class EmailService {
-    public static boolean sendEmail(String to, String subject, String body) {
-        String from = "aymenbenadra2000@gmail.com";
-        // Assuming you are sending email from through gmail smtp
-        String host = "smtp.gmail.com";
+    private static EmailService instance = null;
+    private final Dotenv dotenv;
 
+    private EmailService() {
+        dotenv = Dotenv.load();
+    }
+
+    public static EmailService getInstance() {
+        if (instance == null) {
+            instance = new EmailService();
+        }
+        return instance;
+    }
+    public boolean sendEmail(String to, String subject, String body) {
         // Get system properties
         Properties properties = System.getProperties();
 
         // Setup mail server
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "465");
-        properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.host", dotenv.get("EMAIL_HOST"));
+        properties.put("mail.smtp.port", dotenv.get("EMAIL_PORT"));
+        properties.put("mail.smtp.ssl.enable", dotenv.get("EMAIL_SSL"));
+        properties.put("mail.smtp.auth", dotenv.get("EMAIL_AUTH"));
 
         // Get the Session object.// and pass username and password
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-
             protected PasswordAuthentication getPasswordAuthentication() {
-
-                return new PasswordAuthentication(from, "hqwxjykwsuvnkrql");
-
+                return new PasswordAuthentication(dotenv.get("EMAIL_USERNAME"), dotenv.get("EMAIL_PASSWORD"));
             }
-
         });
 
         // Used to debug SMTP issues
@@ -39,7 +45,7 @@ public class EmailService {
             MimeMessage message = new MimeMessage(session);
 
             // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
+            message.setFrom(new InternetAddress(dotenv.get("EMAIL_USERNAME")));
 
             // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
