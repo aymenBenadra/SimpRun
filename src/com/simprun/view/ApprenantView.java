@@ -20,7 +20,7 @@ public class ApprenantView {
     public void dashboard() {
         terminalUI.println("Apprenant Dashboard: " + authController.getCurrentUser().toString());
         int choice = terminalUI.displayMenu(new String[]{
-                "Submit deliverable", "Logout"
+                "List Briefs", "Submit deliverable", "Logout"
         });
         switch (choice) {
             case 1 -> listBriefs();

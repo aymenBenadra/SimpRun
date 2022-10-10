@@ -80,7 +80,7 @@ public class FormateurView {
     private void manageBriefs() {
         terminalUI.println("Manage Briefs");
         int choice = terminalUI.displayMenu(new String[]{
-                "List briefs", "Add brief", "Show brief details", "Remove brief", "Archive brief", "Back"
+                "List briefs", "Add brief", "Show brief details", "Remove brief", "Archive brief", "Activate Brief", "Back"
         });
         switch (choice) {
             case 1 -> listBriefs();
@@ -88,9 +88,22 @@ public class FormateurView {
             case 3 -> showBriefDetails();
             case 4 -> removeBrief();
             case 5 -> archiveBrief();
-            case 6 -> dashboard();
+            case 6 -> activateBrief();
+            case 7 -> dashboard();
             default -> terminalUI.println("Invalid choice");
         }
+    }
+
+    private void activateBrief() {
+        terminalUI.println("Activate Brief");
+        String[] briefs = formateurController.getBriefs(BriefStatus.Archived);
+        int choice = terminalUI.displayMenu(briefs);
+        if (formateurController.activateBrief(briefs[choice - 1])) {
+            terminalUI.println("Brief activated successfully");
+        } else {
+            terminalUI.println("Brief not activated");
+        }
+        manageBriefs();
     }
 
     private void listBriefs() {
@@ -175,7 +188,7 @@ public class FormateurView {
 
     private void archiveBrief() {
         terminalUI.println("Archive Brief");
-        String[] briefs = formateurController.getBriefs();
+        String[] briefs = formateurController.getBriefs(BriefStatus.Active);
         int choice = terminalUI.displayMenu(briefs);
         if (formateurController.archiveBrief(briefs[choice - 1])) {
             terminalUI.println("Brief archived successfully");

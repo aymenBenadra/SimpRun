@@ -102,7 +102,7 @@ public class AdminView {
         String username = terminalUI.prompt("Username: ");
         String email = terminalUI.prompt("Email: ");
         String password = terminalUI.prompt("Password: ");
-        if (adminController.addFormateur(name, username, email, password)) {
+        if (adminController.addFormateur(name, password, email, username)) {
             terminalUI.println("Formateur added successfully");
         } else {
             terminalUI.println("Failed to add formateur");
