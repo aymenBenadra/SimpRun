@@ -38,6 +38,17 @@ public abstract class MemoryCollectionDAO<T extends IObjectable> implements IDAO
         return null;
     }
 
+    @Override
+    public boolean update(T e) {
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).equals(e)) {
+                entities.set(i, e);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public T getByName(String name) {
         return null;
     }

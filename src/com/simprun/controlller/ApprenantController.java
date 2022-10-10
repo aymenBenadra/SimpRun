@@ -27,8 +27,7 @@ public class ApprenantController {
         Brief brief = getBrief(briefTitle);
         if (brief != null && brief.getStatus() == BriefStatus.Active) {
             Deliverable deliverable = new Deliverable(link, brief, apprenant);
-            deliverables.add(deliverable);
-            return true;
+            return deliverables.add(deliverable);
         }
         return false;
     }

@@ -20,8 +20,7 @@ public class AdminController {
 
     public boolean addApprenant(String name, String username, String email, String password) {
         if (apprenants.getByUsername(username) == null) {
-            apprenants.add(new Apprenant(name, username, email, password));
-            return true;
+            return apprenants.add(new Apprenant(name, username, email, password));
         }
         return false;
     }
@@ -36,8 +35,11 @@ public class AdminController {
     public boolean addPromo(String name, int year, String formateurName) {
         Formateur formateur = formateurs.getByUsername(formateurName);
         Promo promo = new Promo(name, year, formateur);
-        formateur.setPromo(promo);
-        return promos.add(promo);
+        if (promos.add(promo)) {
+            formateur.setPromo(promo);
+            return formateurs.update(formateur);
+        }
+        return false;
     }
 
     public boolean removeApprenant(String username) {
@@ -72,7 +74,10 @@ public class AdminController {
     }
 
     public String[] getFormateurs() {
-        return formateurs.getAll().stream().map(User::getUsername).toArray(String[]::new);
+        return formateurs.getAll()
+                .stream()
+                .map(User::getUsername)
+                .toArray(String[]::new);
     }
 
     public String[] getPromos() {

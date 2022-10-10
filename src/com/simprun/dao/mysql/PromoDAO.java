@@ -3,6 +3,8 @@ package com.simprun.dao.mysql;
 import com.simprun.model.Promo;
 import com.simprun.visitor.DeserializeVisitor;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class PromoDAO extends MySQLDAO<Promo> {
@@ -14,8 +16,8 @@ public class PromoDAO extends MySQLDAO<Promo> {
     public ArrayList<Promo> getAll() {
         ArrayList<Promo> promos = new ArrayList<>();
         String query = "SELECT * FROM promos";
-        try {
-            resultSet = statement.executeQuery(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Promo promo = new Promo();
                 promo.accept(DeserializeVisitor.getInstance(), resultSet);
@@ -30,13 +32,17 @@ public class PromoDAO extends MySQLDAO<Promo> {
 
     @Override
     public Promo get(String id) {
-        String query = "SELECT * FROM promos WHERE id = '" + id + "'";
-        try {
-            resultSet = statement.executeQuery(query);
-            resultSet.next();
-            Promo e = new Promo();
-            e.accept(DeserializeVisitor.getInstance(), resultSet);
-            return e;
+        String query = "SELECT * FROM promos WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Promo promo = new Promo();
+                promo.accept(DeserializeVisitor.getInstance(), resultSet);
+                return promo;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

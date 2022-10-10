@@ -44,13 +44,17 @@ public class DeserializeVisitor implements IDeserializeVisitor{
     @Override
     public void visit(Formateur formateur, ResultSet resultSet) throws SQLException {
         setUserFields(formateur, resultSet);
-        formateur.setPromo(promoDriver.get(resultSet.getString("promoID")));
+        if (formateur.getPromo() == null) {
+            formateur.setPromo(promoDriver.get(resultSet.getString("promoID")));
+        }
     }
 
     @Override
     public void visit(Apprenant apprenant, ResultSet resultSet) throws SQLException {
         setUserFields(apprenant, resultSet);
-        apprenant.setPromo(promoDriver.get(resultSet.getString("promoID")));
+        if (apprenant.getPromo() == null) {
+            apprenant.setPromo(promoDriver.get(resultSet.getString("promoID")));
+        }
     }
 
     @Override
@@ -60,7 +64,9 @@ public class DeserializeVisitor implements IDeserializeVisitor{
         brief.setDescription(resultSet.getString("description"));
         brief.setDeadline(resultSet.getDate("deadline"));
         brief.setStatus(BriefStatus.valueOf(resultSet.getString("status")));
-        brief.setPromo(promoDriver.get(resultSet.getString("promoID")));
+        if (brief.getPromo() == null) {
+            brief.setPromo(promoDriver.get(resultSet.getString("promoID")));
+        }
     }
 
     @Override
@@ -68,8 +74,12 @@ public class DeserializeVisitor implements IDeserializeVisitor{
         deliverable.setId(resultSet.getString("id"));
         deliverable.setLink(resultSet.getString("link"));
         deliverable.setCreatedAt(resultSet.getDate("createdAt"));
-        deliverable.setApprenant(apprenantDriver.get(resultSet.getString("apprenantID")));
-        deliverable.setBrief(briefDriver.get(resultSet.getString("briefID")));
+        if (deliverable.getApprenant() == null) {
+            deliverable.setApprenant(apprenantDriver.get(resultSet.getString("apprenantID")));
+        }
+        if (deliverable.getBrief() == null) {
+            deliverable.setBrief(briefDriver.get(resultSet.getString("briefID")));
+        }
     }
 
     @Override
@@ -77,6 +87,8 @@ public class DeserializeVisitor implements IDeserializeVisitor{
         promo.setId(resultSet.getString("id"));
         promo.setName(resultSet.getString("name"));
         promo.setYear(resultSet.getInt("year"));
-        promo.setFormateur(formateurDriver.get(resultSet.getString("formateurID")));
+        if (promo.getFormateur() == null) {
+            promo.setFormateur(formateurDriver.get(resultSet.getString("formateurID")));
+        }
     }
 }

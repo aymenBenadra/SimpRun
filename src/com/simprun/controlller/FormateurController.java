@@ -21,7 +21,7 @@ public class FormateurController {
         Apprenant apprenant = apprenants.getByUsername(username);
         if (apprenant != null && promo != null) {
             apprenant.setPromo(promo);
-            return true;
+            return apprenants.update(apprenant);
         }
         return false;
     }
@@ -30,7 +30,7 @@ public class FormateurController {
         Apprenant apprenant = apprenants.getByUsername(username);
         if (apprenant != null) {
             apprenant.setPromo(null);
-            return true;
+            return apprenants.update(apprenant);
         }
         return false;
     }
@@ -80,8 +80,10 @@ public class FormateurController {
     public Brief addBrief(String name, String description, Promo promo, String deadline) {
         if (promo != null) {
             Brief brief = new Brief(name, description, promo, Date.valueOf(deadline));
-            briefs.add(brief);
-            return brief;
+            if(briefs.add(brief)) {
+                return brief;
+            }
+            return null;
         }
         return null;
     }
@@ -112,7 +114,7 @@ public class FormateurController {
         Brief brief = briefs.getByTitle(name);
         if (brief != null) {
             brief.setStatus(BriefStatus.Archived);
-            return true;
+            return briefs.update(brief);
         }
         return false;
     }
@@ -121,7 +123,7 @@ public class FormateurController {
         Brief brief = briefs.getByTitle(name);
         if (brief != null) {
             brief.setStatus(BriefStatus.Active);
-            return true;
+            return briefs.update(brief);
         }
         return false;
     }

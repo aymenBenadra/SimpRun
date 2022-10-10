@@ -29,21 +29,21 @@ public class SerializeVisitor implements ISerializeVisitor{
     @Override
     public HashMap<String, String> visit(Admin admin) {
         HashMap<String, String> map = serializeUser(admin);
-        map.put("promoID", "NULL");
+        map.put("promoID", null);
         return map;
     }
 
     @Override
     public HashMap<String, String> visit(Formateur formateur) {
         HashMap<String, String> map = serializeUser(formateur);
-        map.put("promoID", formateur.getPromo() != null ? formateur.getPromo().getId() : "NULL");
+        map.put("promoID", formateur.getPromo() != null ? formateur.getPromo().getId() : null);
         return map;
     }
 
     @Override
     public HashMap<String, String> visit(Apprenant apprenant) {
         HashMap<String, String> map = serializeUser(apprenant);
-        map.put("promoID", apprenant.getPromo() != null ? apprenant.getPromo().getId() : "NULL");
+        map.put("promoID", apprenant.getPromo() != null ? apprenant.getPromo().getId() : null);
         return map;
     }
 
@@ -55,7 +55,7 @@ public class SerializeVisitor implements ISerializeVisitor{
         map.put("description", brief.getDescription());
         map.put("deadline", brief.getDeadline().toString());
         map.put("status", brief.getStatus().toString());
-        map.put("promoID", brief.getPromo() != null ? brief.getPromo().getId() : "NULL");
+        map.put("promoID", brief.getPromo() != null ? brief.getPromo().getId() : null);
         return map;
     }
 
@@ -64,8 +64,8 @@ public class SerializeVisitor implements ISerializeVisitor{
         HashMap<String, String> map = new HashMap<>();
         map.put("link", deliverable.getLink());
         map.put("createdAt", deliverable.getCreatedAt().toString());
-        map.put("briefID", deliverable.getBrief() != null ? deliverable.getBrief().getId() : "NULL");
-        map.put("apprenantID", deliverable.getApprenant() != null ? deliverable.getApprenant().getId() : "NULL");
+        map.put("briefID", deliverable.getBrief() != null ? deliverable.getBrief().getId() : null);
+        map.put("apprenantID", deliverable.getApprenant() != null ? deliverable.getApprenant().getId() : null);
         return map;
     }
 
@@ -75,7 +75,7 @@ public class SerializeVisitor implements ISerializeVisitor{
         map.put("id", promo.getId());
         map.put("name", promo.getName());
         map.put("year", promo.getYear() + "");
-        map.put("formateurID", promo.getFormateur() != null ? promo.getFormateur().getId() : "NULL");
+        map.put("formateurID", promo.getFormateur() != null ? promo.getFormateur().getId() : null);
         return map;
     }
 }

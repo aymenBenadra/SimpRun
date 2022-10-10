@@ -3,6 +3,8 @@ package com.simprun.dao.mysql;
 import com.simprun.model.Deliverable;
 import com.simprun.visitor.DeserializeVisitor;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class DeliverableDAO extends MySQLDAO<Deliverable> {
@@ -14,8 +16,8 @@ public class DeliverableDAO extends MySQLDAO<Deliverable> {
     public ArrayList<Deliverable> getAll() {
         ArrayList<Deliverable> deliverables = new ArrayList<>();
         String query = "SELECT * FROM deliverables";
-        try {
-            resultSet = statement.executeQuery(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Deliverable deliverable = new Deliverable();
                 deliverable.accept(DeserializeVisitor.getInstance(), resultSet);
@@ -30,13 +32,17 @@ public class DeliverableDAO extends MySQLDAO<Deliverable> {
 
     @Override
     public Deliverable get(String id) {
-        String query = "SELECT * FROM users WHERE id = '" + id + "'";
-        try {
-            resultSet = statement.executeQuery(query);
-            resultSet.next();
-            Deliverable e = new Deliverable();
-            e.accept(DeserializeVisitor.getInstance(), resultSet);
-            return e;
+        String query = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Deliverable deliverable = new Deliverable();
+                deliverable.accept(DeserializeVisitor.getInstance(), resultSet);
+                return deliverable;
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
