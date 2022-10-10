@@ -83,12 +83,4 @@ public abstract class User implements IObjectable, ISerializable, IDeserializabl
         }
         return decryptedPassword.toString();
     }
-
-    public String serializeFields() {
-        return "id,name,username,email,password";
-    }
-
-    public String serializeValues() {
-        return String.format("'%s','%s','%s','%s','%s'", this.id, this.name, this.username, this.email, this.password);
-    }
 }

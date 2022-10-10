@@ -1,9 +1,11 @@
 package com.simprun.model;
 
 import com.simprun.visitor.IDeserializeVisitor;
+import com.simprun.visitor.ISerializeVisitor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Promo implements IObjectable, ISerializable, IDeserializable {
@@ -67,21 +69,16 @@ public class Promo implements IObjectable, ISerializable, IDeserializable {
     }
 
     @Override
-    public String serializeFields() {
-        return "id, name, year, formateurID";
-    }
-
-    @Override
-    public String serializeValues() {
-        return String.format("'%s', '%s', %d, '%s'", id, name, year, (formateur != null ? formateur.getId() : "NULL"));
-    }
-
-    @Override
     public void accept(IDeserializeVisitor visitor, ResultSet resultSet) {
         try {
             visitor.visit(this, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public HashMap<String, String> accept(ISerializeVisitor visitor) {
+        return visitor.visit(this);
     }
 }

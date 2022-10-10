@@ -1,6 +1,9 @@
 package com.simprun.model;
 
+import com.simprun.visitor.ISerializeVisitor;
+
+import java.util.HashMap;
+
 public interface ISerializable {
-    String serializeFields();
-    String serializeValues();
+    HashMap<String, String> accept(ISerializeVisitor visitor);
 }

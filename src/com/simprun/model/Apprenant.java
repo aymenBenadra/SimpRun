@@ -1,9 +1,11 @@
 package com.simprun.model;
 
 import com.simprun.visitor.IDeserializeVisitor;
+import com.simprun.visitor.ISerializeVisitor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class Apprenant extends User{
     private Promo promo;
@@ -35,13 +37,8 @@ public class Apprenant extends User{
     }
 
     @Override
-    public String serializeFields() {
-        return super.serializeFields() + ",promoID";
-    }
-
-    @Override
-    public String serializeValues() {
-        return super.serializeValues() + "," + (promo != null ? promo.getId() : "NULL");
+    public HashMap<String, String> accept(ISerializeVisitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.simprun.model;
 
 import com.simprun.visitor.IDeserializeVisitor;
+import com.simprun.visitor.ISerializeVisitor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Brief implements IObjectable, ISerializable, IDeserializable {
@@ -82,21 +84,16 @@ public class Brief implements IObjectable, ISerializable, IDeserializable {
     }
 
     @Override
-    public String serializeFields() {
-        return "name,description,promoID,deadline,status";
-    }
-
-    @Override
-    public String serializeValues() {
-        return "'" + title + "','" + description + "','" + (promo != null ? promo.getId() : "NULL") + "','" + deadline.toString() + "','" + status + "'";
-    }
-
-    @Override
     public void accept(IDeserializeVisitor visitor, ResultSet resultSet) {
         try {
             visitor.visit(this, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public HashMap<String, String> accept(ISerializeVisitor visitor) {
+        return visitor.visit(this);
     }
 }

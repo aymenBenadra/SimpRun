@@ -1,9 +1,11 @@
 package com.simprun.model;
 
 import com.simprun.visitor.IDeserializeVisitor;
+import com.simprun.visitor.ISerializeVisitor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class Admin extends User{
     public Admin(String name, String username, String email, String password) {
@@ -22,6 +24,11 @@ public class Admin extends User{
                 ", email='" + getEmail() + '\'' +
                 ", username='" + getUsername() + '\'' +
                 '}';
+    }
+
+    @Override
+    public HashMap<String, String> accept(ISerializeVisitor visitor) {
+        return visitor.visit(this);
     }
 
     @Override
