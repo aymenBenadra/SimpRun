@@ -22,6 +22,8 @@ public class Deliverable implements IObjectable, ISerializable, IDeserializable 
         this.apprenant = apprenant;
     }
 
+    public Deliverable() {}
+
     // Getters
     public String getLink() {
         return link;
@@ -68,11 +70,11 @@ public class Deliverable implements IObjectable, ISerializable, IDeserializable 
     // Helpers
     @Override
     public String toString() {
-        return "Deliverable {" +
+        return "DeliverableDAO {" +
                 "id='" + id + '\'' +
                 ", link='" + link + '\'' +
                 ", createdAt='" + createdAt.toString() + '\'' +
-                ", brief=" + brief.getName() +
+                ", brief=" + brief.getTitle() +
                 ", apprenant=" + apprenant.getName() +
                 '}';
     }
@@ -84,7 +86,8 @@ public class Deliverable implements IObjectable, ISerializable, IDeserializable 
 
     @Override
     public String serializeValues() {
-        return String.format("'%s','%s','%s','%s','%s'", id, link, createdAt.toString(), brief.getId(), apprenant.getId());
+        return String.format("'%s','%s','%s','%s','%s'", id, link, createdAt.toString(),
+                brief != null ? brief.getId() : "NULL", apprenant != null ? apprenant.getId() : "NULL");
     }
 
     @Override

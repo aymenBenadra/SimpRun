@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Brief implements IObjectable, ISerializable, IDeserializable {
 
     private String id;
-    private String name;
+    private String title;
     private String description;
     private Date deadline;
     private BriefStatus status;
@@ -18,9 +18,9 @@ public class Brief implements IObjectable, ISerializable, IDeserializable {
 
     public Brief() {}
 
-    public Brief(String name, String description, Promo promo, Date deadline) {
+    public Brief(String title, String description, Promo promo, Date deadline) {
         this.id = UUID.randomUUID().toString();
-        this.name = name;
+        this.title = title;
         this.description = description;
         this.deadline = deadline;
         this.status = BriefStatus.Active;
@@ -28,8 +28,8 @@ public class Brief implements IObjectable, ISerializable, IDeserializable {
     }
 
     // Getters
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
     public String getDescription() {
         return description;
@@ -55,8 +55,8 @@ public class Brief implements IObjectable, ISerializable, IDeserializable {
     public void setId(String id) {
         this.id = id;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
     public void setDescription(String description) {
         this.description = description;
@@ -73,7 +73,7 @@ public class Brief implements IObjectable, ISerializable, IDeserializable {
     public String toString() {
         return "Brief {" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", promo=" + promo.getName() + " " + promo.getYear() +
                 ", deadline='" + deadline.toString() + '\'' +
@@ -88,7 +88,7 @@ public class Brief implements IObjectable, ISerializable, IDeserializable {
 
     @Override
     public String serializeValues() {
-        return "'" + name + "','" + description + "','" + promo.getId() + "','" + deadline.toString() + "','" + status + "'";
+        return "'" + title + "','" + description + "','" + (promo != null ? promo.getId() : "NULL") + "','" + deadline.toString() + "','" + status + "'";
     }
 
     @Override

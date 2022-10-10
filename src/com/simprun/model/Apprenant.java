@@ -12,6 +12,10 @@ public class Apprenant extends User{
         super(name, username, email, password);
     }
 
+    public Apprenant() {
+        super();
+    }
+
     public void setPromo(Promo promo) {
         this.promo = promo;
     }
@@ -37,7 +41,7 @@ public class Apprenant extends User{
 
     @Override
     public String serializeValues() {
-        return super.serializeValues() + "," + promo.getId();
+        return super.serializeValues() + "," + (promo != null ? promo.getId() : "NULL");
     }
 
     @Override

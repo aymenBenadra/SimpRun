@@ -24,6 +24,8 @@ public abstract class User implements IObjectable, ISerializable, IDeserializabl
         this.username = username;
     }
 
+    public User() {}
+
     private String encryptPassword(String password) {
         StringBuilder encryptedPassword = new StringBuilder();
         for (int i = 0; i < password.length(); i++) {
@@ -42,7 +44,7 @@ public abstract class User implements IObjectable, ISerializable, IDeserializabl
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = encryptPassword(password);
     }
 
     public void setEmail(String email) {

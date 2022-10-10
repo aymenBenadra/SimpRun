@@ -19,6 +19,8 @@ public class Promo implements IObjectable, ISerializable, IDeserializable {
         this.formateur = formateur;
     }
 
+    public Promo() {}
+
     // Getters
     public String getId() {
         return id;
@@ -71,7 +73,7 @@ public class Promo implements IObjectable, ISerializable, IDeserializable {
 
     @Override
     public String serializeValues() {
-        return String.format("'%s', '%s', %d, '%s'", id, name, year, formateur.getId());
+        return String.format("'%s', '%s', %d, '%s'", id, name, year, (formateur != null ? formateur.getId() : "NULL"));
     }
 
     @Override

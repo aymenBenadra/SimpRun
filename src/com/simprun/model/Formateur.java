@@ -12,6 +12,10 @@ public class Formateur extends User {
         super(name, username, email, password);
     }
 
+    public Formateur() {
+        super();
+    }
+
     public Promo getPromo() {
         return promo;
     }
@@ -37,7 +41,7 @@ public class Formateur extends User {
 
     @Override
     public String serializeValues() {
-        return super.serializeValues() + "," + promo.getId();
+        return super.serializeValues() + "," + (promo != null ? promo.getId() : "NULL");
     }
 
     @Override
