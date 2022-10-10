@@ -1,6 +1,6 @@
 package com.simprun.visitor;
 
-import com.simprun.dao.IDriver;
+import com.simprun.dao.IDAO;
 import com.simprun.model.*;
 
 import java.sql.ResultSet;
@@ -8,10 +8,10 @@ import java.sql.SQLException;
 
 public class DeserializeVisitor implements IDeserializeVisitor{
     private static DeserializeVisitor instance;
-    private static IDriver<Apprenant> apprenantDriver;
-    private static IDriver<Formateur> formateurDriver;
-    private static IDriver<Brief> briefDriver;
-    private static IDriver<Promo> promoDriver;
+    private static IDAO<Apprenant> apprenantDriver;
+    private static IDAO<Formateur> formateurDriver;
+    private static IDAO<Brief> briefDriver;
+    private static IDAO<Promo> promoDriver;
     private DeserializeVisitor() {}
 
     public static DeserializeVisitor getInstance() {
@@ -21,7 +21,7 @@ public class DeserializeVisitor implements IDeserializeVisitor{
         return instance;
     }
 
-    public static void setDrivers(IDriver<Apprenant> apprenantDriver, IDriver<Formateur> formateurDriver, IDriver<Brief> briefDriver, IDriver<Promo> promoDriver) {
+    public static void setDrivers(IDAO<Apprenant> apprenantDriver, IDAO<Formateur> formateurDriver, IDAO<Brief> briefDriver, IDAO<Promo> promoDriver) {
         DeserializeVisitor.apprenantDriver = apprenantDriver;
         DeserializeVisitor.formateurDriver = formateurDriver;
         DeserializeVisitor.briefDriver = briefDriver;
@@ -56,7 +56,7 @@ public class DeserializeVisitor implements IDeserializeVisitor{
     @Override
     public void visit(Brief brief, ResultSet resultSet) throws SQLException {
         brief.setId(resultSet.getString("id"));
-        brief.setName(resultSet.getString("name"));
+        brief.setTitle(resultSet.getString("name"));
         brief.setDescription(resultSet.getString("description"));
         brief.setDeadline(resultSet.getDate("deadline"));
         brief.setStatus(BriefStatus.valueOf(resultSet.getString("status")));
