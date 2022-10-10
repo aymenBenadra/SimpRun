@@ -4,27 +4,27 @@ import com.simprun.controlller.AdminController;
 import com.simprun.controlller.ApprenantController;
 import com.simprun.controlller.AuthController;
 import com.simprun.controlller.FormateurController;
-import com.simprun.dao.IDriver;
-import com.simprun.dao.MemoryCollectionDriver;
+import com.simprun.dao.IDAO;
+import com.simprun.dao.mysql.*;
 import com.simprun.model.*;
 import com.simprun.view.*;
+import com.simprun.visitor.DeserializeVisitor;
 
 public class Main {
     public static void main(String[] args) {
-        IDriver<Apprenant> apprenants = new MemoryCollectionDriver<>();
-        IDriver<Formateur> formateurs = new MemoryCollectionDriver<>();
-        IDriver<Admin> admins = new MemoryCollectionDriver<>();
-        IDriver<Promo> promos = new MemoryCollectionDriver<>();
-        IDriver<Deliverable> deliverables = new MemoryCollectionDriver<>();
-        IDriver<Brief> briefs = new MemoryCollectionDriver<>();
+        IDAO<Apprenant> apprenants = new ApprenantDAO();
+        IDAO<Formateur> formateurs = new FormateurDAO();
+        IDAO<Admin> admins = new AdminDAO();
+        IDAO<Promo> promos = new PromoDAO();
+        IDAO<Deliverable> deliverables = new DeliverableDAO();
+        IDAO<Brief> briefs = new BriefDAO();
+
+        DeserializeVisitor.setDrivers(apprenants, formateurs, briefs, promos);
 
         AuthController authController = new AuthController(admins, formateurs, apprenants);
         TerminalUI terminalUI = new TerminalUI();
         AuthView authView = new AuthView(authController, terminalUI);
         User currentUser;
-
-        // Seed Test Admin
-        admins.add(new Admin("Admin", "admin", "admin@simp.run", "admin"));
 
         terminalUI.println("Welcome to Simprun");
         while (true) {

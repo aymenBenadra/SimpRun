@@ -1,20 +1,20 @@
 package com.simprun.dao.local;
 
-import com.simprun.model.Apprenant;
+import com.simprun.model.Formateur;
 
 import java.util.ArrayList;
 
-public class FormateurDAO extends MemoryCollectionDAO<Apprenant> {
+public class FormateurDAO extends MemoryCollectionDAO<Formateur> {
     public FormateurDAO() {
         super();
     }
 
-    public FormateurDAO(ArrayList<Apprenant> entities) {
+    public FormateurDAO(ArrayList<Formateur> entities) {
         super(entities);
     }
 
-    public Apprenant getByUsername(String username) {
-        for (Apprenant e : getAll()) {
+    public Formateur getByUsername(String username) {
+        for (Formateur e : getAll()) {
             if (e.getUsername().equals(username)) {
                 return e;
             }
