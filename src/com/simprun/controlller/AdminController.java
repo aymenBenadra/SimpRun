@@ -1,6 +1,6 @@
 package com.simprun.controlller;
 
-import com.simprun.dao.IDriver;
+import com.simprun.dao.IDAO;
 import com.simprun.model.Apprenant;
 import com.simprun.model.Formateur;
 import com.simprun.model.Promo;
@@ -8,11 +8,11 @@ import com.simprun.model.User;
 
 public class AdminController {
 
-    private final IDriver<Promo> promos;
-    private final IDriver<Apprenant> apprenants;
-    private final IDriver<Formateur> formateurs;
+    private final IDAO<Promo> promos;
+    private final IDAO<Apprenant> apprenants;
+    private final IDAO<Formateur> formateurs;
 
-    public AdminController(IDriver<Promo> promos, IDriver<Apprenant> apprenants, IDriver<Formateur> formateurs) {
+    public AdminController(IDAO<Promo> promos, IDAO<Apprenant> apprenants, IDAO<Formateur> formateurs) {
         this.promos = promos;
         this.apprenants = apprenants;
         this.formateurs = formateurs;
@@ -28,8 +28,7 @@ public class AdminController {
 
     public boolean addFormateur(String name, String password, String email, String username) {
         if (formateurs.getByUsername(username) == null) {
-            formateurs.add(new Formateur(name, username, email, password));
-            return true;
+            return formateurs.add(new Formateur(name, username, email, password));
         }
         return false;
     }
@@ -37,9 +36,8 @@ public class AdminController {
     public boolean addPromo(String name, int year, String formateurName) {
         Formateur formateur = formateurs.getByUsername(formateurName);
         Promo promo = new Promo(name, year, formateur);
-        promos.add(promo);
         formateur.setPromo(promo);
-        return true;
+        return promos.add(promo);
     }
 
     public boolean removeApprenant(String username) {

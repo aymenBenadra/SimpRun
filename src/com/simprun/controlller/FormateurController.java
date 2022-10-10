@@ -1,17 +1,17 @@
 package com.simprun.controlller;
 
-import com.simprun.dao.IDriver;
+import com.simprun.dao.IDAO;
 import com.simprun.model.*;
 import com.simprun.service.EmailService;
 
 import java.sql.Date;
 
 public class FormateurController {
-    private final IDriver<Apprenant> apprenants;
-    private final IDriver<Brief> briefs;
-    private final IDriver<Deliverable> deliverables;
+    private final IDAO<Apprenant> apprenants;
+    private final IDAO<Brief> briefs;
+    private final IDAO<Deliverable> deliverables;
 
-    public FormateurController(IDriver<Apprenant> apprenants, IDriver<Brief> briefs, IDriver<Deliverable> deliverables) {
+    public FormateurController(IDAO<Apprenant> apprenants, IDAO<Brief> briefs, IDAO<Deliverable> deliverables) {
         this.apprenants = apprenants;
         this.briefs = briefs;
         this.deliverables = deliverables;
@@ -52,22 +52,22 @@ public class FormateurController {
     public String[] getBriefs(BriefStatus status) {
         return briefs.getAll().stream()
                 .filter(brief -> brief.getStatus() == status)
-                .map(Brief::getName)
+                .map(Brief::getTitle)
                 .toArray(String[]::new);
     }
 
     public String[] getBriefs() {
         return briefs.getAll().stream()
-                .map(Brief::getName)
+                .map(Brief::getTitle)
                 .toArray(String[]::new);
     }
 
     public Brief getBrief(String name) {
-        return briefs.getByName(name);
+        return briefs.getByTitle(name);
     }
 
-    public String[] getDeliverables(String briefName) {
-        Brief brief = briefs.getByName(briefName);
+    public String[] getDeliverables(String briefTitle) {
+        Brief brief = briefs.getByTitle(briefTitle);
         if (brief != null) {
             return deliverables.getAll().stream()
                     .filter(deliverable -> deliverable.getBrief() == brief)
@@ -88,7 +88,7 @@ public class FormateurController {
 
     public boolean broadcastBrief(Brief brief) {
         String mailBody = "New brief is added by your formateur " + brief.getPromo().getFormateur().getUsername()
-                + "\nBrief name: " + brief.getName()
+                + "\nBrief Title: " + brief.getTitle()
                 + "\nBrief Description: " + brief.getDescription()
                 + "\nBrief Deadline: " + brief.getDeadline();
 
@@ -101,7 +101,7 @@ public class FormateurController {
     }
 
     public boolean removeBrief(String name) {
-        Brief brief = briefs.getByName(name);
+        Brief brief = briefs.getByTitle(name);
         if (brief != null) {
             return briefs.delete(brief);
         }
@@ -109,9 +109,18 @@ public class FormateurController {
     }
 
     public boolean archiveBrief(String name) {
-        Brief brief = briefs.getByName(name);
+        Brief brief = briefs.getByTitle(name);
         if (brief != null) {
             brief.setStatus(BriefStatus.Archived);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean activateBrief(String name) {
+        Brief brief = briefs.getByTitle(name);
+        if (brief != null) {
+            brief.setStatus(BriefStatus.Active);
             return true;
         }
         return false;

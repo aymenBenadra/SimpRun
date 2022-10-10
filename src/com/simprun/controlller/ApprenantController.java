@@ -1,13 +1,13 @@
 package com.simprun.controlller;
 
-import com.simprun.dao.IDriver;
+import com.simprun.dao.IDAO;
 import com.simprun.model.*;
 
 public class ApprenantController {
-    private final IDriver<Brief> briefs;
-    private final IDriver<Deliverable> deliverables;
+    private final IDAO<Brief> briefs;
+    private final IDAO<Deliverable> deliverables;
 
-    public ApprenantController(IDriver<Brief> briefs, IDriver<Deliverable> deliverables) {
+    public ApprenantController(IDAO<Brief> briefs, IDAO<Deliverable> deliverables) {
         this.briefs = briefs;
         this.deliverables = deliverables;
     }
@@ -15,16 +15,16 @@ public class ApprenantController {
     public String[] getBriefs(Promo promo) {
         return briefs.getAll().stream()
                 .filter(brief -> brief.getPromo().equals(promo) && brief.getStatus() == BriefStatus.Active)
-                .map(Brief::getName)
+                .map(Brief::getTitle)
                 .toArray(String[]::new);
     }
 
     public Brief getBrief(String name) {
-        return briefs.getByName(name);
+        return briefs.getByTitle(name);
     }
 
-    public boolean addDeliverable(String briefName, String link, Apprenant apprenant) {
-        Brief brief = getBrief(briefName);
+    public boolean addDeliverable(String briefTitle, String link, Apprenant apprenant) {
+        Brief brief = getBrief(briefTitle);
         if (brief != null && brief.getStatus() == BriefStatus.Active) {
             Deliverable deliverable = new Deliverable(link, brief, apprenant);
             deliverables.add(deliverable);
