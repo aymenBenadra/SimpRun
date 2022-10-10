@@ -19,5 +19,7 @@ public interface IDAO<T> {
 
     T getByUsername(String username);
 
+    IDAO<T> getLocalDAO();
+
     int count();
 }

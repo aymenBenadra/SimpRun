@@ -19,7 +19,7 @@ public class Main {
         IDAO<Deliverable> deliverables = new DeliverableDAO();
         IDAO<Brief> briefs = new BriefDAO();
 
-        DeserializeVisitor.setDrivers(apprenants, formateurs, briefs, promos);
+        DeserializeVisitor.setDrivers(admins, apprenants, formateurs, briefs, promos, deliverables);
 
         AuthController authController = new AuthController(admins, formateurs, apprenants);
         TerminalUI terminalUI = new TerminalUI();

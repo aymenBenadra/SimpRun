@@ -76,6 +76,7 @@ public class AdminController {
     public String[] getFormateurs() {
         return formateurs.getAll()
                 .stream()
+                .filter(formateur -> formateur.getPromo() == null)
                 .map(User::getUsername)
                 .toArray(String[]::new);
     }

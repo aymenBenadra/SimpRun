@@ -7,17 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class Deliverable implements IObjectable, ISerializable, IDeserializable {
-    private String id;
     private String link;
     private Date createdAt;
     private Brief brief;
     private Apprenant apprenant;
 
     public Deliverable(String link, Brief brief, Apprenant apprenant) {
-        this.id = UUID.randomUUID().toString();
         this.link = link;
         this.createdAt = new Date();
         this.brief = brief;
@@ -45,12 +42,7 @@ public class Deliverable implements IObjectable, ISerializable, IDeserializable 
 
     @Override
     public String getId() {
-        return id;
-    }
-
-    // Setters
-    public void setId(String id) {
-        this.id = id;
+        return brief.getId() + "-" + apprenant.getId();
     }
 
     public void setLink(String link) {
@@ -73,8 +65,7 @@ public class Deliverable implements IObjectable, ISerializable, IDeserializable 
     @Override
     public String toString() {
         return "DeliverableDAO {" +
-                "id='" + id + '\'' +
-                ", link='" + link + '\'' +
+                "link='" + link + '\'' +
                 ", createdAt='" + createdAt.toString() + '\'' +
                 ", brief=" + brief.getTitle() +
                 ", apprenant=" + apprenant.getName() +

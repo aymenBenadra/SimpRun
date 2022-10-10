@@ -1,6 +1,7 @@
 package com.simprun.dao.mysql;
 
 import com.simprun.dao.IDAO;
+import com.simprun.dao.local.MemoryCollectionDAO;
 import com.simprun.model.IObjectable;
 import com.simprun.model.ISerializable;
 import com.simprun.visitor.SerializeVisitor;
@@ -12,10 +13,16 @@ import java.util.HashMap;
 public abstract class MySQLDAO<T extends IObjectable & ISerializable> implements IDAO<T> {
     protected final Connection connection;
     protected final String tableName;
+    protected MemoryCollectionDAO<T> cache;
 
-    public MySQLDAO(String tableName) {
+    public MySQLDAO(String tableName, MemoryCollectionDAO<T> cache) {
+        this.connection = MySQLConnection.getConnection();
         this.tableName = tableName;
-        connection = MySQLConnection.getConnection();
+        this.cache = cache;
+    }
+
+    public MemoryCollectionDAO<T> getLocalDAO() {
+        return cache;
     }
 
     @Override

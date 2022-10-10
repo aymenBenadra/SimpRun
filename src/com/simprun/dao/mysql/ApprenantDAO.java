@@ -13,7 +13,7 @@ public class ApprenantDAO extends MySQLDAO<Apprenant> {
     private static final UserRoles role = UserRoles.Apprenant;
 
     public ApprenantDAO() {
-        super("users");
+        super("users", new com.simprun.dao.local.ApprenantDAO());
     }
 
     @Override
@@ -34,6 +34,12 @@ public class ApprenantDAO extends MySQLDAO<Apprenant> {
     }
 
     public Apprenant getByUsername(String username) {
+        if (cache != null) {
+            Apprenant apprenant = cache.getByUsername(username);
+            if (apprenant != null) {
+                return apprenant;
+            }
+        }
         String query = "SELECT * FROM users WHERE username = ? AND role = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             return getApprenant(username, statement);
@@ -45,6 +51,9 @@ public class ApprenantDAO extends MySQLDAO<Apprenant> {
 
     @Override
     public ArrayList<Apprenant> getAll() {
+        if (cache != null && cache.count() == count()) {
+            return cache.getAll();
+        }
         ArrayList<Apprenant> users = new ArrayList<>();
         String query = "SELECT * FROM users WHERE role = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -55,6 +64,7 @@ public class ApprenantDAO extends MySQLDAO<Apprenant> {
                 user.accept(DeserializeVisitor.getInstance(), resultSet);
                 users.add(user);
             }
+            cache = new com.simprun.dao.local.ApprenantDAO(users);
             return users;
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,6 +74,12 @@ public class ApprenantDAO extends MySQLDAO<Apprenant> {
 
     @Override
     public Apprenant get(String id) {
+        if (cache != null) {
+            Apprenant apprenant = cache.get(id);
+            if (apprenant != null) {
+                return apprenant;
+            }
+        }
         String query = "SELECT * FROM users WHERE id = ? AND role = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             return getApprenant(id, statement);
@@ -80,6 +96,7 @@ public class ApprenantDAO extends MySQLDAO<Apprenant> {
         if (resultSet.next()) {
             Apprenant user = new Apprenant();
             user.accept(DeserializeVisitor.getInstance(), resultSet);
+            cache.add(user);
             return user;
         } else {
             return null;

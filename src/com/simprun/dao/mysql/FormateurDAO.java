@@ -13,7 +13,7 @@ public class FormateurDAO extends MySQLDAO<Formateur> {
     private static final UserRoles role = UserRoles.Formateur;
 
     public FormateurDAO() {
-        super("users");
+        super("users", new com.simprun.dao.local.FormateurDAO());
     }
 
     @Override
@@ -34,6 +34,12 @@ public class FormateurDAO extends MySQLDAO<Formateur> {
     }
 
     public Formateur getByUsername(String username) {
+        if (cache != null) {
+            Formateur formateur = cache.getByUsername(username);
+            if (formateur != null) {
+                return formateur;
+            }
+        }
         String query = "SELECT * FROM users WHERE username = ? AND role = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             return getFormateur(username, statement);
@@ -45,6 +51,9 @@ public class FormateurDAO extends MySQLDAO<Formateur> {
 
     @Override
     public ArrayList<Formateur> getAll() {
+        if (cache != null && cache.count() == count()) {
+            return cache.getAll();
+        }
         ArrayList<Formateur> users = new ArrayList<>();
         String query = "SELECT * FROM users WHERE role = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -55,6 +64,7 @@ public class FormateurDAO extends MySQLDAO<Formateur> {
                 user.accept(DeserializeVisitor.getInstance(), resultSet);
                 users.add(user);
             }
+            cache = new com.simprun.dao.local.FormateurDAO(users);
             return users;
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,6 +74,12 @@ public class FormateurDAO extends MySQLDAO<Formateur> {
 
     @Override
     public Formateur get(String id) {
+        if (cache != null) {
+            Formateur formateur = cache.get(id);
+            if (formateur != null) {
+                return formateur;
+            }
+        }
         String query = "SELECT * FROM users WHERE id = ? AND role = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             return getFormateur(id, statement);
@@ -81,6 +97,7 @@ public class FormateurDAO extends MySQLDAO<Formateur> {
         if (resultSet.next()) {
             Formateur user = new Formateur();
             user.accept(DeserializeVisitor.getInstance(), resultSet);
+            cache.add(user);
             return user;
         } else {
             return null;

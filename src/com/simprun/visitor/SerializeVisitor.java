@@ -2,6 +2,7 @@ package com.simprun.visitor;
 
 import com.simprun.model.*;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 public class SerializeVisitor implements ISerializeVisitor{
@@ -63,7 +64,8 @@ public class SerializeVisitor implements ISerializeVisitor{
     public HashMap<String, String> visit(Deliverable deliverable) {
         HashMap<String, String> map = new HashMap<>();
         map.put("link", deliverable.getLink());
-        map.put("createdAt", deliverable.getCreatedAt().toString());
+        map.put("createdAt", new SimpleDateFormat("yyyy-MM-dd")
+                .format(deliverable.getCreatedAt().getTime()));
         map.put("briefID", deliverable.getBrief() != null ? deliverable.getBrief().getId() : null);
         map.put("apprenantID", deliverable.getApprenant() != null ? deliverable.getApprenant().getId() : null);
         return map;

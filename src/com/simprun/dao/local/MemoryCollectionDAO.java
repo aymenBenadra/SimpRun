@@ -28,6 +28,10 @@ public abstract class MemoryCollectionDAO<T extends IObjectable> implements IDAO
         return entities;
     }
 
+    public MemoryCollectionDAO<T> getLocalDAO() {
+        return this;
+    }
+
     @Override
     public T get(String id) {
         for (T e : entities) {
