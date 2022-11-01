@@ -10,23 +10,23 @@ abstract class User {
 }
 
 class Admin {
-  - void addApprenant()
-  - void addFormateur()
-  - void removeApprenant()
-  - void removeFormateur()
-  - void addPromo()
-  - void removePromo()
+  + void addApprenant()
+  + void addFormateur()
+  + void removeApprenant()
+  + void removeFormateur()
+  + void addPromo()
+  + void removePromo()
 }
 
 class Formateur {
-  - void addApprenantToPromo()
-  - void addBrief()
-  - void removeApprenantFromPromo()
-  - void archiveBrief()
+  + void addApprenantToPromo()
+  + void addBrief()
+  + void removeApprenantFromPromo()
+  + void archiveBrief()
 }
 
 class Apprenant {
-  - void submitDelivrable()
+  + void submitDelivrable()
 }
 
 class Promo {
@@ -58,7 +58,7 @@ User ^-- Admin
 User ^-- Formateur
 User ^-- Apprenant
 
-Formateur "1" -- "1" Promo : has <
+Formateur "1" -- "1,*" Promo : has <
 Apprenant "1,*" -- "1" Promo : has <
 Promo "1" -- "0,*" Brief : has >
 Apprenant "0,*" -- "0,*" Brief : Completes >
